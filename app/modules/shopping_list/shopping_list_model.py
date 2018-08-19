@@ -18,14 +18,39 @@ class ShoppingList(db.Model):
     def all(cls):
         items = []
         for i in db.session.query(cls).all():
-            data = jsonify(
-                id=i.id,
-                title=i.title,
-                store_name=i.store_name,
-                date=i.date
-            )
+            data = ShoppingList.set_json_shopping_list(i)
             items.append(data)
-        return data
+        return jsonify(data=items)
+
+    @classmethod
+    def create(cls, data):
+        data = ShoppingList.set_shopping_list(data)
+        db.session.add(data)
+        db.session.commit()
+        return jsonify(ShoppingList.set_json_shopping_list(data))
+
+    @classmethod
+    def delete(cls, shopping_list_id):
+        data = ShoppingList.query.get(shopping_list_id)
+        db.session.delete(data)
+        db.session.commit()
+        return jsonify(id=shopping_list_id,
+                       title=data.title)
+
+    @classmethod
+    def set_shopping_list(cls, data):
+        return ShoppingList(title=data['title'],
+                            store_name=data['store_name'])
+
+    @classmethod
+    def set_json_shopping_list(cls, data):
+        result = {
+            'id': data.id,
+            'title': data.title,
+            'store_name': data.store_name,
+            'date': data.date
+        }
+        return result
 
 
 class Items(db.Model):
