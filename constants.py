@@ -1,0 +1,1 @@
+SQL_URL = 'mysql+pymysql://root:P@ssw0rd@localhost:3306/shopping_management'
