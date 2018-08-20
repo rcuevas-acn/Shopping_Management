@@ -24,14 +24,21 @@ def get_all():
 
 
 @shopping_list.route("shopping_list", methods=['POST'])
-def create_update():
+def create():
+    try:
+        request_data = request.get_json()
+        response = ShoppingList.create(request_data)
+        return response, 200
+    except Exception as error:
+        print('Error {}'.format(error))
+
+
+@shopping_list.route("shopping_list", methods=['PUT'])
+def update():
     try:
         shopping_list_id = request.args.get('id')
         request_data = request.get_json()
-        if shopping_list_id is None:
-            response = ShoppingList.create(request_data)
-        else:
-            response = ShoppingList.update(request_data, shopping_list_id)
+        response = ShoppingList.update(request_data, shopping_list_id)
         return response, 200
     except Exception as error:
         print('Error {}'.format(error))
