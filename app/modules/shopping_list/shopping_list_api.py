@@ -11,6 +11,12 @@ def before_request():
 
 @shopping_list.route("shopping_list", methods=['GET'])
 def get_all():
+    """List Shopping List and Item Model.
+
+    Returns
+    -------
+        JSON: Array List of Shopping List and Item Model
+    """
     try:
         parameter = {
             "id": request.args.get('id'),
@@ -25,6 +31,12 @@ def get_all():
 
 @shopping_list.route("shopping_list", methods=['POST'])
 def create():
+    """Create Shopping List Model.
+
+    Returns
+    -------
+        JSON: Shopping List Model
+    """
     try:
         request_data = request.get_json()
         response = ShoppingList.create(request_data)
@@ -35,6 +47,12 @@ def create():
 
 @shopping_list.route("shopping_list", methods=['PUT'])
 def update():
+    """Update Shopping List Model.
+
+    Returns
+    -------
+        JSON: Shopping List Model
+    """
     try:
         shopping_list_id = request.args.get('id')
         request_data = request.get_json()
@@ -46,6 +64,12 @@ def update():
 
 @shopping_list.route("shopping_list", methods=['DELETE'])
 def delete():
+    """Delete Shopping List Model.
+
+    Returns
+    -------
+        JSON: Shopping List Model
+    """
     try:
         shopping_list_id = request.args.get('id')
         return ShoppingList.delete(shopping_list_id), 200

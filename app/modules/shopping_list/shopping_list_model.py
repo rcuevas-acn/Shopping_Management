@@ -13,10 +13,22 @@ class ShoppingList(db.Model):
 
     @classmethod
     def create_table(cls):
+        """Create all table in this model.
+        """
         db.create_all()
 
     @classmethod
     def all(cls, parameter):
+        """List Shopping List and Item Model.
+
+        Parameters
+        ----------
+        parameter : JSON
+
+        Returns
+        -------
+        JSON: Array List of Shopping List and Item Model
+        """
         items = []
         queries = []
         if parameter['id'] is not None:
@@ -34,21 +46,34 @@ class ShoppingList(db.Model):
 
     @classmethod
     def create(cls, request):
+        """Create Shopping List Model.
+
+        Parameters
+        ----------
+        request : JSON
+
+        Returns
+        -------
+        JSON: Shopping List Model
+        """
         data = ShoppingList.set_shopping_list(request)
         db.session.add(data)
         db.session.commit()
         return jsonify(ShoppingList.set_json_shopping_list(data))
 
     @classmethod
-    def delete(cls, shopping_list_id):
-        data = ShoppingList.query.get(shopping_list_id)
-        db.session.delete(data)
-        db.session.commit()
-        return jsonify(id=shopping_list_id,
-                       title=data.title)
-
-    @classmethod
     def update(cls, request, shopping_list_id):
+        """Update Shopping List Model.
+
+        Parameters
+        ----------
+        request : JSON
+        shopping_list_id : int
+
+        Returns
+        -------
+            JSON: Shopping List Model
+        """
         data = ShoppingList.query.get(shopping_list_id)
         for i in request:
             exec("data.{}='{}'".format(i,request[i]))
@@ -56,12 +81,49 @@ class ShoppingList(db.Model):
         return jsonify(ShoppingList.set_json_shopping_list(data))
 
     @classmethod
+    def delete(cls, shopping_list_id):
+        """Delete Shopping List Model.
+
+        Parameters
+        ----------
+        shopping_list_id : int
+
+        Returns
+        -------
+            JSON: Shopping List Model
+        """
+        data = ShoppingList.query.get(shopping_list_id)
+        db.session.delete(data)
+        db.session.commit()
+        return jsonify(ShoppingList.set_json_shopping_list(data))
+
+    @classmethod
     def set_shopping_list(cls, data):
+        """Set Shopping List Model.
+
+        Parameters
+        ----------
+        data : JSON
+
+        Returns
+        -------
+            MODEL: Shopping List Model
+        """
         return ShoppingList(title=data['title'],
                             store_name=data['store_name'])
 
     @classmethod
     def set_json_shopping_list(cls, data):
+        """Set Shopping List Model to JSON.
+
+        Parameters
+        ----------
+        data : Shopping List Model
+
+        Returns
+        -------
+            JSON: Shopping List and Items Model
+        """
         result = {
             'id': data.id,
             'title': data.title,
@@ -82,6 +144,17 @@ class Items(db.Model):
 
     @classmethod
     def create(cls, request, shopping_list_id):
+        """Create items Model.
+
+        Parameters
+        ----------
+        request : JSON
+        shopping_list_id : int
+
+        Returns
+        -------
+            JSON: Shopping List Model
+        """
         for i in request['items']:
             item = Items.query.filter_by(shopping_list_id=shopping_list_id,item_id=i['item_id']).first()
             if item is None:
@@ -91,16 +164,21 @@ class Items(db.Model):
             else:
                 item.quantity=item.quantity+i['quantity']
                 db.session.commit()
-        parameter = {
-            "id": shopping_list_id,
-            "title": None,
-            "item_id": None,
-            "name": None
-        }
-        return ShoppingList.all(parameter)
+        return jsonify(ShoppingList.set_json_shopping_list(ShoppingList.query.get(shopping_list_id)))
 
     @classmethod
     def set_items(cls, data, shopping_list_id):
+        """Set Items Model.
+
+        Parameters
+        ----------
+        data : JSON
+        shopping_list_id : int
+
+        Returns
+        -------
+            MODEL: Items Model
+        """
         return Items(item_id=data['item_id'],
                      name=data['name'],
                      quantity=data['quantity'],
@@ -108,6 +186,16 @@ class Items(db.Model):
 
     @classmethod
     def set_json_items(cls, data):
+        """Set Items Model to JSON.
+
+        Parameters
+        ----------
+        data : Items Model
+
+        Returns
+        -------
+            JSON: Items Model
+        """
         result = {
             'id': data.id,
             'item_id': data.item_id,
@@ -119,6 +207,16 @@ class Items(db.Model):
 
     @classmethod
     def set_list_items(cls, data):
+        """Set Items Model to ArrayList.
+
+        Parameters
+        ----------
+        data : JSON
+
+        Returns
+        -------
+            ArrayList: JSON of Items Model
+        """
         result = []
         for i in data:
             result.append(Items.set_json_items(i))
