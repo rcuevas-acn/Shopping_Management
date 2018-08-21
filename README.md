@@ -82,11 +82,12 @@ pytest
     }   
 ```
 ### Reference Link
-https://docs.python.org/3/library/subprocess.html\
-http://flask-sqlalchemy.pocoo.org/2.3/quickstart/#quickstart\
-http://flask-sqlalchemy.pocoo.org/2.3/queries/\
-http://flask-sqlalchemy.pocoo.org/2.3/models/\
-https://stackoverflow.com/questions/3325467/elixir-sqlalchemy-equivalent-to-sql-like-statement\
-https://developer.lsst.io/python/numpydoc.html#py-docstring-other-parameters\
-https://docs.pytest.org/en/latest/getting-started.html#getstarted\
+https://docs.python.org/3/library/subprocess.html \
+http://flask-sqlalchemy.pocoo.org/2.3/quickstart/#quickstart \
+http://flask-sqlalchemy.pocoo.org/2.3/queries/ \
+http://flask-sqlalchemy.pocoo.org/2.3/models/ \
+https://stackoverflow.com/questions/3325467/elixir-sqlalchemy-equivalent-to-sql-like-statement \
+https://developer.lsst.io/python/numpydoc.html#py-docstring-other-parameters \
+https://docs.pytest.org/en/latest/getting-started.html#getstarted \
+https://help.github.com/articles/basic-writing-and-formatting-syntax/#styling-text \
 
