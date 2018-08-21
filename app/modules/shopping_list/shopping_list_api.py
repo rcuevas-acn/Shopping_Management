@@ -6,6 +6,8 @@ shopping_list = Blueprint('shopping_list', __name__, url_prefix="/api")
 
 @shopping_list.before_request
 def before_request():
+    """Create table on request
+    """
     ShoppingList.create_table()
 
 
